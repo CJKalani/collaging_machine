@@ -9,10 +9,10 @@ def main(repeats):
     faff = input("Welcome to the Collage Zone. Do you want to faff? ")
     if (
         faff in {"Y", "y"}
-        or len(faff) > 1
+        or len(faff) < 5
+        and len(faff) > 1
         and faff[0] in {"y", "Y"}
         and faff[1] in {"e", "E"}
-        and len(faff) < 5
     ):
         return semi_advanced_suite(repeats)
     if (
@@ -237,8 +237,8 @@ def draw(pix, orientation, sprawlingest, widest_tallest, params, min_side, area)
 ##        print_folder.append(sprawlingest)
 ##        pix.remove(sprawlingest)
     if len(print_folder) == 0:
-        print_folder.append(widest_tallest[aspect])
-        pix.remove(widest_tallest[aspect])
+        print_folder.append(widest_tallest[orientation])
+        pix.remove(widest_tallest[orientation])
 
     while len(pix) > 0:
         next_pic = nextpic(pix, print_folder, min_side, border, orientation, aspect)
