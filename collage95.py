@@ -10,6 +10,7 @@ def main(repeats):
     if (
         faff in {"Y", "y"}
         or len(faff) < 5
+        and len(faff) > 1
         and faff[0] in {"y", "Y"}
         and faff[1] in {"e", "E"}
     ):
