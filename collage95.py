@@ -10,12 +10,15 @@ def main(repeats):
     if (
         faff in {"Y", "y"}
         or len(faff) < 5
-        and len(faff) > 1
         and faff[0] in {"y", "Y"}
         and faff[1] in {"e", "E"}
     ):
-        return advanced_suite(repeats)
-    if faff == "":
+        return semi_advanced_suite(repeats)
+    if (
+        faff in {"", "n", "N"}
+        or len(faff) < 4
+        and faff[0].lower() == "n"
+    ):
         pix = getpix()[0]
         printmostcompact(len(pix)**2)
         return
