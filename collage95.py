@@ -290,7 +290,7 @@ def centreofmass(print_folder, x, y):
     offcentre_y = ideal_y - offset_y
     unbalancedness = (offcentre_x**2 + offcentre_y**2)**0.5 / total_area
         
-    return (unbalancedness + 20) * total_area
+    return (unbalancedness + 2000) * total_area
 
 if __name__ == "__main__":
     main(5)
