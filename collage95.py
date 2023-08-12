@@ -22,17 +22,17 @@ def main(repeats):
         and faff[0].lower() == "n"
     ):
         pix = getpix()[0]
-        printmostcompact(len(pix)**2)
+        printmostcompact(len(pix)**2, [1, 1, 1, 0])
         return
 
     return semi_advanced_suite(repeats)
 
-def printmostcompact(x):
+def printmostcompact(x, params):
     min_area = [10**10, []]
-    for i in range(1, x):
-        pix, min_side, params, area = getpix()
+    for i in range(x):
+        pix, min_side, paramsthrowaway, area = getpix()
         params[-1] = i
-        print_complete = layout(pix, min_side, params, area)
+        print_complete = layout(copy.deepcopy(pix), min_side, params, area)
         total_area = print_complete[1][0] * print_complete[1][1]
         if total_area < min_area[0]:
             min_area = [total_area, print_complete]
@@ -62,6 +62,7 @@ def advanced_suite(repeats):
         "How much top border do you like? ",
         "How much side border do you like? ",
     )
+    print("this probably won't produce the best results (try trying something different next time)")
     params = [0, 0, 0, 0]
     for rep in range(repeats):
         for i in range(len(displayed)):
@@ -69,7 +70,7 @@ def advanced_suite(repeats):
             if i == 0:
                 if rep != 0:
                     if text.lower() == "rs":
-                        params[-1] += 1
+                        params[-1] += 101
                         print_complete = layout(copy.deepcopy(pix), min_side, params, area)
                         coll(print_complete)
                         break
@@ -77,7 +78,7 @@ def advanced_suite(repeats):
             while not isfloat(text) or float(text) < -5 or float(text) > 20:
                 print("enter a number between 0.1 and 10")
                 text = input(displayed[i])
-            params[i - 1] = float(text) / 2
+            params[i - 1] = float(text)
         if text.lower() == "rs":
             continue
         params[-1] = 0
@@ -101,9 +102,11 @@ def semi_advanced_suite(repeats):
                 if char in {"b", "B"}:
                     b += 1
             
-            params[i] = 0.4 * 1.5**b
-        print_complete = layout(copy.deepcopy(pix), min_side, params, area)
-        coll(print_complete)
+            if b > 0:
+                params[i] = 0.4 * 1.5**b
+            else:
+                params[i] = 0
+        printmostcompact(len(pix)**2, params)
         
 def getpix():
     global path
@@ -226,9 +229,18 @@ def draw(pix, orientation, sprawlingest, widest_tallest, params, min_side, area)
                 break
 
     print_folder = []
-    border = int((area)**0.5 * params[0] / len(pix))
-    top = int((area)**0.5 * params[1] / len(pix))
-    side = int((area)**0.5 * params[2] / len(pix))
+    if params[0] > 0:
+        border = int((area * params[0] / len(pix))**0.5)
+    else:
+        border = -int((-area * params[0] / len(pix))**0.5)
+    if params[1] > 0:
+        top = int((area * params[1] / len(pix))**0.5)
+    else:
+        top = -int((-area * params[1] / len(pix))**0.5)
+    if params[2] > 0:
+        side = int((area * params[2] / len(pix))**0.5)
+    else:
+        side = -int((-area * params[2] / len(pix))**0.5)
     aspect = 1
     if orientation == 1:
         aspect = 0
