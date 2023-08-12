@@ -229,18 +229,9 @@ def draw(pix, orientation, sprawlingest, widest_tallest, params, min_side, area)
                 break
 
     print_folder = []
-    if params[0] > 0:
-        border = int((area * params[0] / len(pix))**0.5)
-    else:
-        border = -int((-area * params[0] / len(pix))**0.5)
-    if params[1] > 0:
-        top = int((area * params[1] / len(pix))**0.5)
-    else:
-        top = -int((-area * params[1] / len(pix))**0.5)
-    if params[2] > 0:
-        side = int((area * params[2] / len(pix))**0.5)
-    else:
-        side = -int((-area * params[2] / len(pix))**0.5)
+    border = int(((area / len(pix))**0.5) * params[0])
+    top = int(((area / len(pix))**0.5) * params[1])
+    side = int(((area / len(pix))**0.5) * params[2])
     aspect = 1
     if orientation == 1:
         aspect = 0
