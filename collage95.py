@@ -27,7 +27,7 @@ def main(repeats):
         and faff[0].lower() == "n"
     ):
         pix = getpix()[0]
-        printmostcompact(len(pix)**1, [0.5, 1, 1, 0])
+        printmostcompact(len(pix)**2, [0.5, 1, 1, 0])
         return
 
     return semi_advanced_suite(repeats)
