@@ -1,10 +1,15 @@
-path = "/Users/mac/Documents/coll/"
+path = "coll/"
 from PIL import Image
 import time
 import os
 from os import listdir
 import copy
-print("it probably makes sense to just hit enter the first time at least")
+
+if not os.path.exists("coll"):
+    # Create the folder
+    os.mkdir("coll")
+    print("S")
+unused = input("Have you added the pics to coll ? it probably makes sense to just hit enter the first time at least that you answer the next question")
 
 def main(repeats):
     faff = input("Welcome to the Collage Zone. Do you want to faff? ")
@@ -22,7 +27,7 @@ def main(repeats):
         and faff[0].lower() == "n"
     ):
         pix = getpix()[0]
-        printmostcompact(len(pix)**2, [0.5, 1, 1, 0])
+        printmostcompact(len(pix)**1, [0.5, 1, 1, 0])
         return
 
     return semi_advanced_suite(repeats)
@@ -31,7 +36,7 @@ def printmostcompact(x, params):
     min_bad = [[], 10**50]
     for i in range(x):
         pix, min_side, paramsthrowaway, area = getpix()
-        params[-1] = i
+        params[-1] = i + 997
         print_complete = layout(copy.deepcopy(pix), min_side, params, area)
         total_area = print_complete[1][0] * print_complete[1][1]
         if print_complete[2] * total_area < min_bad[-1]:
@@ -76,7 +81,7 @@ def advanced_suite(repeats):
                         coll(print_complete)
                         break
                 continue
-            while not isfloat(text) or float(text) < -5 or float(text) > 20:
+            while not isfloat(text) or float(text) < -5 or float(text) > 19.9:
                 print("enter a number between 0.1 and 10")
                 text = input(displayed[i])
             params[i - 1] = float(text)
@@ -104,7 +109,7 @@ def semi_advanced_suite(repeats):
                     b += 1
             
             if b > 0:
-                params[i] = 0.2 * 1.5**b
+                params[i] = 0.1 * 1.5**b
             else:
                 params[i] = 0
         printmostcompact(len(pix)**2, params)
