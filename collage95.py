@@ -16,6 +16,12 @@ def main(repeats):
         equivalent = equivalent_suite(pix, min_side, params, area, repeats)
         if equivalent:
             return
+        if len(pix) > 2:
+            answer = input("Do you want to remove a pic and try again? ")
+            if answer.lower() in {"yes", "y"}:
+                main(repeats)
+                return
+        
     if (
         faff in {"Y", "y"}
         or len(faff) < 5
