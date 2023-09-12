@@ -12,7 +12,10 @@ def main(repeats):
     faff = input("Welcome to the Collage Zone. Make sure you have added the pics to the folder 'coll'. The first time you answer this, it's probably best to just hit enter \nDo you want to faff? ")
     pix, min_side, params, area, equivalent = getpix()
     if equivalent:
-        return equivalent_suite(pix, min_side, params, area, repeats)
+        print("Mkay - you're using equal sized pics, so let's see about that...")
+        equivalent = equivalent_suite(pix, min_side, params, area, repeats)
+        if equivalent:
+            return
     if (
         faff in {"Y", "y"}
         or len(faff) < 5
@@ -27,17 +30,17 @@ def main(repeats):
         and faff[0].lower() == "n"
     ):
         pix = getpix()[0]
-        printmostcompact(len(pix)**2, [0.5, 1, 1, 0])
-        return
+        return printmostcompact(len(pix)**2, [0.5, 1, 1, 0])
 
     return semi_advanced_suite(repeats)
 
 def printmostcompact(x, params):
     not_equivalent = True
     min_bad = [[], 10**50]
+    bigrandomnumber = 997
     for i in range(x):
         pix, min_side, paramsthrowaway, area = getpix()
-        params[-1] = i + 997
+        params[-1] = i + bigrandomnumber
         print_complete = layout(copy.deepcopy(pix), min_side, params, area, not_equivalent)
         total_area = print_complete[1][0] * print_complete[1][1]
         if print_complete[2] * total_area < min_bad[-1]:
@@ -75,13 +78,14 @@ def advanced_suite(repeats):
     )
     print("this probably won't produce the best results (try trying something different next time)")
     params = [0, 0, 0, 0]
+    bigrandomnumber = 997
     for rep in range(repeats):
         for i in range(len(displayed)):
             text = input(displayed[i])
             if i == 0:
                 if rep != 0:
                     if text.lower() == "rs":
-                        params[-1] += 1000
+                        params[-1] += bigrandomnumber
                         print_complete = layout(copy.deepcopy(pix), min_side, params, area, not_equivalent)
                         coll(print_complete)
                         break
@@ -144,8 +148,8 @@ def getpix():
         equivalent = False
     for i in range(len(pix)):
         pix[i].append(i)
-    min_length = int(area**0.5)
-    return pix, min_length, [1, 1, 1, 0], area, equivalent
+    min_side = int(area**0.5) + 1
+    return pix, min_side, [1, 1, 1, 0], area, equivalent
 
 
 def layout(pix, min_side, params, area, not_equivalent):
@@ -157,9 +161,9 @@ def layout(pix, min_side, params, area, not_equivalent):
             widest = pic
         if pic[2] > tallest[2]:
             tallest = pic
-        area = pic[1] * pic[2]
-        if area > sprawlingest[0]:
-            sprawlingest = [area, pic]
+        pic_area = pic[1] * pic[2]
+        if pic_area > sprawlingest[0]:
+            sprawlingest = [pic_area, pic]
     wide = []
     tall = []
     min_max_side = min_side
@@ -322,7 +326,7 @@ def equivalent_suite(pix, min_side, params, area, repeats):
         if n % i == 0 and pix[0][1] * n / i < 2 * min_side and pix[0][1] * n / i > 0.5 * min_side:
             candidates.append((i, pix[0][1] * n / (i**2 * pix[0][2])))
     if len(candidates) == 0:
-        return semi_advanced_suite(repeats)
+        return False
     
     candidate = (0, 11)
     for grouping in candidates:
@@ -359,8 +363,10 @@ def equivalent_suite(pix, min_side, params, area, repeats):
         params[-1] = 0
         border = int(((area / len(pix))**0.5) * params[0])
         min_side = candidate[0] * pix[0][1] + (candidate[0] - 1) * border
+        print(min_side, border)
         print_complete = layout(copy.deepcopy(pix), min_side, params, area, not_equivalent)
-        coll(print_complete)  
+        coll(print_complete)
+    return True
     
 if __name__ == "__main__":
     main(10)
